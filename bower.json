@@ -1,0 +1,25 @@
+{
+  "name": "copy-and-paste",
+  "version": "0.0.1",
+  "authors": [
+    "Timo Salola <timo@salola.fi>"
+  ],
+  "description": "",
+  "main": "server.js",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.5.0",
+    "bootstrap": "3.3.4",
+    "socket.io-client": "~1.4.5"
+  }
+}
