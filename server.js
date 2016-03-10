@@ -7,7 +7,9 @@ var app = new express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 
 app.all('/api/*', function(req, res, next) {

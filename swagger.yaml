@@ -51,19 +51,30 @@ paths:
       parameters:
         - name: id
           in: path
+          description: The ID of the web-client
           required: true
           type: string
-        - name: test
+        - name: body
           in: body
-          description: This is test
+          description: Message body
           schema:
             $ref: '#/definitions/PostData'
           required: true
       responses:
         200:
           description: The data has been succesfully send and received by the web-client
+          schema:
+            $ref: '#/definitions/Success'
+        400:
+          description: The message in body is missing
+          schema:
+            $ref: '#/definitions/Error'
         404:
           description: ID is not found
+          schema:
+            $ref: '#/definitions/Error'
+        408:
+          description: Web-client did not response to this message in specified time. You may try to send message again
           schema:
             $ref: '#/definitions/Error'
         500:
@@ -73,6 +84,8 @@ paths:
 definitions:
   PostData:
     type: object
+    required:
+      - msg
     properties:
       msg: 
         type: string

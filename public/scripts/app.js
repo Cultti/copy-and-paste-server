@@ -12,27 +12,30 @@ angular.module('app', [])
     socket.on('connect', function() {
         alert('connection!');
     });
-    
+
     socket.on('msg', function(data) {
         console.log(data);
+        socket.emit('msg-response', {
+            msg: 'Data received'
+        });
         alert('data');
     });
-    
+
     socket.on('registered', function(data) {
         console.log(data);
         $scope.id = data.id;
         $scope.socketId = data.socketId;
     });
-    
+
     socket.on('api-conected', function(data) {
-       $scope.connected = true;
-       $scope.$digest();
-       
-       socket.emit('api-connected-response', {
-           msg: 'Verified'
-       });
+        $scope.connected = true;
+        $scope.$digest();
+
+        socket.emit('api-connected-response', {
+            msg: 'Verified'
+        });
     });
-    
+
     socket.on('disconnect', function() {
         alert('disconnection!');
     });

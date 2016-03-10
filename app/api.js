@@ -12,16 +12,39 @@ module.exports = function(app, io) {
                     msg: 'Server error'
                 });
             }
+            else if (!req.body.msg) {
+                return res.status(400).json({
+                    msg: 'Message is missing!'
+                });
+            }
             else {
-                if (!socketId) {
+                if (!socketId || !io.sockets.connected[socketId]) {
                     return res.status(404).json({
                         msg: 'ID not found'
                     });
                 }
 
-                res.json({
-                    msg: 'Found!'
+                var socket = io.sockets.connected[socketId];
+                socket.emit('msg', {
+                    msg: req.body.msg
                 });
+                
+                socket.on('msg-response', function(data) {
+                    socket.removeAllListeners('msg-response');
+                    clearTimeout(timeout);
+                    
+                    res.json({
+                        msg: 'Message delivered succesfully'
+                    });
+                });
+                
+                var timeout = setTimeout(function() {
+                    socket.removeAllListeners('msg-response');
+                    
+                    return res.status(408).json({
+                        msg: 'Web-client did not respond in timely manner'
+                    });
+                }, 10000);
             }
         });
     });
@@ -48,20 +71,20 @@ module.exports = function(app, io) {
                 socket.on('api-connected-response', function(data) {
                     socket.removeAllListeners('api-connected-response');
                     clearTimeout(timeout);
-                    
+
                     res.json({
                         msg: 'You are now connected!'
                     });
                 });
-                
-                // Wait 5 minutes before timeout
+
+                // Wait 10 seconds before timeout
                 var timeout = setTimeout(function() {
                     socket.removeAllListeners('api-connected-response');
-                    
-                    return res.status(404).json({
-                        msg: 'ID not found'
+
+                    return res.status(408).json({
+                        msg: 'Web-client did not respond in timely manner'
                     });
-                }, 300000);
+                }, 10000);
             }
         });
     });
