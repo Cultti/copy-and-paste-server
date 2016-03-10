@@ -1,7 +1,7 @@
 /* global angular, io */
 'use strict';
 
-angular.module('app', [])
+angular.module('app', ['ja.qr'])
 
 .controller('main', ['$scope', '$location', function($scope, $location) {
     var url = $location.protocol() +
@@ -12,6 +12,8 @@ angular.module('app', [])
     socket.on('connect', function() {
         alert('connection!');
     });
+    
+    $scope.string = 'testing'
 
     socket.on('msg', function(data) {
         console.log(data);
@@ -39,6 +41,10 @@ angular.module('app', [])
     socket.on('disconnect', function() {
         alert('disconnection!');
     });
+    
+    $scope.testClick = function() {
+        alert('CLICKED!!1');
+    };
 
 
     $scope.messages = [];

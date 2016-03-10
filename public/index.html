@@ -12,12 +12,38 @@
   <!-- bower:css -->
   <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css" />
   <!-- endbower -->
+  
+  <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.css" />
+
+  <link rel="stylesheet" href="styles/main.css" />
 </head>
 
 <body ng-app="app">
   <div ng-controller="main">
-    <div ng-repeat="message in messages track by $index">
-      {{ message }}
+    <div class="container">
+      <!-- Connect jumbtron -->
+      <div id="connect-jumbo" class="jumbotron col-xs-6 col-xs-offset-2" ng-class="{'jumbo-hide': connected}">
+        <h1>Connect naow!!</h1>
+        <p class="center-text">
+          <qr type-number="8" correction-level="'M'" size="200" input-mode="'8bit'" text="string" image="true"></qr>
+        </p>
+        <p class="connected-jumbo-msg" ng-show="connected">Connected</p>
+      </div>
+      <!-- /Connect jumbotron -->
+
+      <!-- Message list -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <p class="panel-body-copy">
+                <i ng-click="testClick();" class="fa fa-clipboard panel-body-copy-button"></i>
+                Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä 
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -26,6 +52,8 @@
   <script src="libs/angular/angular.js"></script>
   <script src="libs/bootstrap/dist/js/bootstrap.js"></script>
   <script src="libs/socket.io-client/socket.io.js"></script>
+  <script src="libs/qrcode/lib/qrcode.js"></script>
+  <script src="libs/angular-qr/src/angular-qr.js"></script>
   <!-- endbower -->
 
   <script src="scripts/app.js"></script>

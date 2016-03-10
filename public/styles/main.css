@@ -1,0 +1,81 @@
+body {
+    padding-top: 15px;
+    background: #4b6cb7;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #4b6cb7, #182848);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #4b6cb7, #182848);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.center-text {
+    text-align: center;
+}
+
+#connect-jumbo {
+    -webkit-transition: top 1s cubic-bezier(0.4, 0, 1, 1) 2s;
+    -moz-transition: top 1s cubic-bezier(0.4, 0, 1, 1) 2s;
+    -o-transition: top 1s cubic-bezier(0.4, 0, 1, 1) 2s;
+    transition: top 1s cubic-bezier(0.4, 0, 1, 1) 2s;
+}
+
+#connect-jumbo {
+    position: fixed;
+    top: 15px;
+    width: 560px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+@media screen and (max-width:767px) {
+    #connect-jumbo {
+        position: fixed;
+        width: 100%;
+    }
+    .center-text {
+        text-align: left;
+    }
+}
+
+#connect-jumbo.jumbo-hide {
+    top: -500px !important;
+}
+
+.connect-jumbo-info {
+    position: fixed;
+}
+
+.connected-jumbo-msg {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    -webkit-transition: display 1s;
+    -moz-transition: display 1s;
+    -o-transition: display 1s;
+    transition: display 1s;
+}
+
+.panel-body-copy {
+    margin: 0 10px 0;
+}
+
+.panel-body-copy-button {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.panel-body-copy-button:hover {
+    background-color: #e6e6e6;
+    cursor: pointer;
+}
