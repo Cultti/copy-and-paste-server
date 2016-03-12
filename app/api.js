@@ -12,7 +12,7 @@ module.exports = function(app, io) {
                     msg: 'Server error'
                 });
             }
-            else if (!req.body.msg) {
+            else if (!req.body.data) {
                 return res.status(400).json({
                     msg: 'Message is missing!'
                 });
@@ -26,7 +26,7 @@ module.exports = function(app, io) {
 
                 var socket = io.sockets.connected[socketId];
                 socket.emit('msg', {
-                    msg: req.body.msg
+                    data: req.body.data
                 });
                 
                 socket.on('msg-response', function(data) {

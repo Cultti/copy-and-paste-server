@@ -32,13 +32,13 @@
       <!-- /Connect jumbotron -->
 
       <!-- Message list -->
-      <div class="row">
+      <div class="row" ng-repeat="message in messages | orderBy:'-seq'">
         <div class="col-sm-12">
           <div class="panel panel-default">
             <div class="panel-body">
               <p class="panel-body-copy">
                 <i ng-click="testClick();" class="fa fa-clipboard panel-body-copy-button"></i>
-                Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä Kopioitavaa tekstiä 
+                {{ message.data }}
               </p>
             </div>
           </div>

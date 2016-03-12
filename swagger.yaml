@@ -85,9 +85,9 @@ definitions:
   PostData:
     type: object
     required:
-      - msg
+      - data
     properties:
-      msg: 
+      data: 
         type: string
   Success:
     type: object

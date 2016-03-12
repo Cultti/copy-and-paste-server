@@ -8,19 +8,23 @@ angular.module('app', ['ja.qr'])
         '://' + $location.host() +
         ':' + $location.port();
 
+    $scope.string = "test";
+
     var socket = io(url);
     socket.on('connect', function() {
         alert('connection!');
     });
-    
-    $scope.string = 'testing'
 
-    socket.on('msg', function(data) {
-        console.log(data);
+    socket.on('msg', function(msg) {
+        
+        msg.seq = $scope.seq++;
+        
+        $scope.messages.push(msg);
+        $scope.$digest();
+        
         socket.emit('msg-response', {
             msg: 'Data received'
         });
-        alert('data');
     });
 
     socket.on('registered', function(data) {
@@ -46,6 +50,6 @@ angular.module('app', ['ja.qr'])
         alert('CLICKED!!1');
     };
 
-
     $scope.messages = [];
+    $scope.seq = 0;
 }]);
