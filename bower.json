@@ -22,7 +22,8 @@
     "bootstrap": "3.3.4",
     "socket.io-client": "~1.4.5",
     "font-awesome": "~4.5.0",
-    "angular-qr": "~0.2.0"
+    "angular-qr": "~0.2.0",
+    "ngclipboard": "~1.1.1"
   },
   "resolutions": {
     "angular": "~1.5.0"

@@ -1,7 +1,7 @@
 /* global angular, io */
 'use strict';
 
-angular.module('app', ['ja.qr'])
+angular.module('app', ['ja.qr','ngclipboard'])
 
 .controller('main', ['$scope', '$location', function($scope, $location) {
     var url = $location.protocol() +
@@ -12,11 +12,10 @@ angular.module('app', ['ja.qr'])
 
     var socket = io(url);
     socket.on('connect', function() {
-        alert('connection!');
+        
     });
 
     socket.on('msg', function(msg) {
-        
         msg.seq = $scope.seq++;
         
         $scope.messages.push(msg);
@@ -43,12 +42,8 @@ angular.module('app', ['ja.qr'])
     });
 
     socket.on('disconnect', function() {
-        alert('disconnection!');
+        
     });
-    
-    $scope.testClick = function() {
-        alert('CLICKED!!1');
-    };
 
     $scope.messages = [];
     $scope.seq = 0;

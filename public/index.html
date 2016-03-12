@@ -37,7 +37,7 @@
           <div class="panel panel-default">
             <div class="panel-body">
               <p class="panel-body-copy">
-                <i ng-click="testClick();" class="fa fa-clipboard panel-body-copy-button"></i>
+                <i class="fa fa-clipboard panel-body-copy-button" ngclipboard data-clipboard-text="{{ message.data }}"></i>
                 {{ message.data }}
               </p>
             </div>
@@ -54,6 +54,8 @@
   <script src="libs/socket.io-client/socket.io.js"></script>
   <script src="libs/qrcode/lib/qrcode.js"></script>
   <script src="libs/angular-qr/src/angular-qr.js"></script>
+  <script src="libs/clipboard/dist/clipboard.js"></script>
+  <script src="libs/ngclipboard/dist/ngclipboard.js"></script>
   <!-- endbower -->
 
   <script src="scripts/app.js"></script>
