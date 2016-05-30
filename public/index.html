@@ -37,8 +37,8 @@
           <div class="panel panel-default">
             <div class="panel-body">
               <p class="panel-body-copy">
-                <i class="fa fa-clipboard panel-body-copy-button" ngclipboard data-clipboard-text="{{ message.data }}"></i>
-                {{ message.data }}
+                <i class="fa fa-clipboard panel-body-copy-button" ngclipboard data-clipboard-text="{{::message.data}}"></i>
+                {{::message.data}}
               </p>
             </div>
           </div>

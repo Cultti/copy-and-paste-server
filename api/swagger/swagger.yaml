@@ -8,13 +8,14 @@ info:
 schemes:
   - https
   - http
-host: copy-and-paste-cultti.c9users.io
 basePath: /api
 produces:
   - application/json
 paths:
   /connect/{id}:
+    x-swagger-router-controller: connect
     post:
+      operationId: connectById
       summary: Connects to client specified by ID
       description: |
         This function will reserve the client with specified ID to you. No other client can communicate with this client anymore
@@ -43,7 +44,9 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /send/{id}:
+    x-swagger-router-controller: send
     post:
+      operationId: sendById
       summary: Sends information to web-client
       description: With this method you can send data directly to web-client. The client is specified with same ID that in connect
       tags:
