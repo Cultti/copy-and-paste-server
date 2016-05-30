@@ -33,5 +33,13 @@ node_modules
 # Runtime configuration for swagger app
 config/runtime.yaml
 
+<<<<<<< HEAD
 # Bower libs are not required
 public/libs/
+=======
+# c9.io
+.c9
+
+# GitEye
+/.project
+>>>>>>> 810cae0edd5bbde5653e62dbe770503dcb51585b
