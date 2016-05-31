@@ -5,16 +5,18 @@
   "description": "New Swagger API Project",
   "keywords": [],
   "author": "Timo Salola <timo@salola.fi>",
-  "version": "0.0.1",
   "license": "MIT",
   "main": "app.js",
   "dependencies": {
-    "express": "^4.12.3",
-    "swagger-express-mw": "^0.1.0",
     "body-parser": "^1.15.0",
+    "config": "^1.20.4",
+    "express": "^4.12.3",
+    "express-jwt": "^3.4.0",
+    "jsonwebtoken": "^7.0.0",
     "redis": "^2.4.2",
     "socket.io": "^1.4.5",
-    "socket.io-redis": "^1.0.0"
+    "socket.io-redis": "^1.0.0",
+    "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
     "should": "^7.1.0",

@@ -14,13 +14,12 @@ module.exports = function(io) {
         var id = generateId();
         
         redis.set('connectionId:' + id, socket.id);
-        redis.set('socketId:' + socket.id, id);
         
         socket.emit('registered', {id: id, socketId: socket.id});
         
         // Socket events
         socket.on('disconnect', function() {
-            redis.del('connectionId:' + id, 'socketId:' + socket.id);
+            redis.del('connectionId:' + id);
         });
     });
 

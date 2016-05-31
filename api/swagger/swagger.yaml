@@ -1,13 +1,15 @@
-# this is an example of the Uber API
-# as a demonstration of an API spec in YAML
 swagger: '2.0'
 info:
   title: Copy-and-Paste
   version: "0.0.1"
-# array of all schemes that your API supports
 schemes:
   - https
   - http
+securityDefinitions:
+  bearer:
+    type: apiKey
+    name: Authorization
+    in: header
 basePath: /api
 produces:
   - application/json
@@ -30,7 +32,16 @@ paths:
         200:
           description: Succesfully connected
           schema:
-            $ref: '#/definitions/Success'
+            type: object
+            required:
+              - msg
+              - token
+            properties:
+              msg: 
+                type: string
+              token: 
+                type: string
+                description: Bearer token that can be used to send data to web-client
         404:
           description: ID is not found
           schema:
@@ -43,20 +54,17 @@ paths:
           description: Internal server error occured
           schema:
             $ref: '#/definitions/Error'
-  /send/{id}:
+  /send:
     x-swagger-router-controller: send
     post:
       operationId: sendById
       summary: Sends information to web-client
-      description: With this method you can send data directly to web-client. The client is specified with same ID that in connect
+      description: With this method you can send data directly to web-client. You have to use /connect API call first to get bearer token.
       tags:
         - send
+      security:
+        - bearer: []
       parameters:
-        - name: id
-          in: path
-          description: The ID of the web-client
-          required: true
-          type: string
         - name: body
           in: body
           description: Message body

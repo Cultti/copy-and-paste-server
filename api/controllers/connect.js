@@ -1,6 +1,9 @@
 'use strict';
 
+var jwt = require('jsonwebtoken');
+var cfg = require('config');
 var io = require('../helpers/io.js')();
+var redis = require('../helpers/redis.js');
 var findConnection = require('../helpers/findConnectionById.js');
 
 module.exports = {
@@ -40,10 +43,22 @@ function connectById(req, res) {
             socket.removeAllListeners('api-connected-response');
             // Clear the timeout waiter
             clearTimeout(timeout);
+
+            // Generate token
+            var token = jwt.sign({
+                socketId: socketId
+            }, cfg.get('security.secret'),
+            {
+                expiresIn: cfg.get('security.expiresIn')
+            });
             
+            // Remove connection from redis
+            redis.del('connectionId:' + id);
+
             // Send response
             res.json({
-                msg: 'You are now connected!'
+                msg: 'You are now connected!',
+                token: token
             });
         });
 
