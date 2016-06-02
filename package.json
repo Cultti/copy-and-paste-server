@@ -19,10 +19,17 @@
     "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
-    "should": "^7.1.0",
-    "supertest": "^1.0.0",
+    "chai": "^3.0.0",
+    "dotenv": "^1.2.0",
     "grunt": "^0.4.5",
-    "grunt-wiredep": "^2.0.0"
+    "grunt-wiredep": "^2.0.0",
+    "mocha": "^2.2.5",
+    "request": "^2.58.0",
+    "rewire": "^2.5.1",
+    "should": "^7.1.0",
+    "sinon": "^1.17.4",
+    "supertest": "^1.0.0",
+    "z-schema": "^3.12.0"
   },
   "scripts": {
     "start": "node app.js",

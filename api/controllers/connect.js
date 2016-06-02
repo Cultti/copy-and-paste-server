@@ -2,7 +2,7 @@
 
 var jwt = require('jsonwebtoken');
 var cfg = require('config');
-var io = require('../helpers/io.js')();
+var ws = require('../helpers/io.js');
 var redis = require('../helpers/redis.js');
 var findConnection = require('../helpers/findConnectionById.js');
 
@@ -13,7 +13,8 @@ module.exports = {
 function connectById(req, res) {
     // Get the request ID
     var id = req.swagger.params.id.value;
-
+    // Get io
+    var io = ws();
     // Try find connection
     findConnection(id, function(err, socketId) {
         // If there is an error
