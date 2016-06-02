@@ -1,8 +1,3 @@
 language: node_js
 node_js:
     "6.2"
-before_script:
-    - npm install -g swagger
-    - ./node_modules/.bin/jscoverage api api-cov --exclude *.yaml,*.md
-after_success:
-    - mocha test/**/*.js -R mocha-lcov-reporter | ./node_modules/.bin/coveralls
