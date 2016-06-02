@@ -3,3 +3,6 @@ node_js:
     "6.2"
 before_script:
     - npm install -g swagger
+after_success:
+    - ./node_modules/.bin/jscoverage api api-cov --exclude *.yaml
+    - Couldn't find a repository matching this job.

@@ -35,3 +35,6 @@ config/runtime.yaml
 
 # Bower libs are not required
 public/libs/
+
+# Coverage files are not required
+api-cov

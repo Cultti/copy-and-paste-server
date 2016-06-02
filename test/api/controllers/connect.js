@@ -7,7 +7,7 @@ var ioMock = require('../mocks/io.mock.js');
 
 describe('Connect controller', function() {
     beforeEach(function() {
-       controller = rewire('../../../api/controllers/connect');
+       controller = rewire('../../../api-cov/controllers/connect');
        
        controller.__set__('ws', ioMock);
     });
