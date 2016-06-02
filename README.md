@@ -1,4 +1,4 @@
-# Copy and paste server
+# Copy and paste server [![Build Status](https://travis-ci.org/Cultti/copy-and-paste-server.svg?branch=master)](https://travis-ci.org/Cultti/copy-and-paste-server) [![Coverage Status](https://coveralls.io/repos/github/Cultti/copy-and-paste-server/badge.svg?branch=master)](https://coveralls.io/github/Cultti/copy-and-paste-server?branch=master)
 The purpose of this project is to create connection between two clients to allow copy and paste anything with ease, eg. pictures and text.
 
 ## Documentation
