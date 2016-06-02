@@ -2,6 +2,7 @@
 module.exports = function(grunt) {
     // Load tasks
     grunt.loadNpmTasks('grunt-wiredep');
+    grunt.loadNpmTasks('grunt-jslint');
     grunt.loadNpmTasks('grunt-jscoverage');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-coveralls');
@@ -10,6 +11,18 @@ module.exports = function(grunt) {
         wiredep: {
             task: {
                 src: ['public/index.html']
+            }
+        },
+        jslint: {
+            server: {
+                src: 'api/**/*.js',
+                directives: {
+                    node: true,
+                    white: true
+                },
+                options: {
+                    failOnError: false
+                }
             }
         },
         jscoverage: {
@@ -43,5 +56,5 @@ module.exports = function(grunt) {
 
     // Register tasks
     grunt.registerTask('default', ['wiredep']);
-    grunt.registerTask('test', ['jscoverage', 'mochaTest', 'coveralls']);
+    grunt.registerTask('test', ['jslint', 'jscoverage', 'mochaTest', 'coveralls']);
 };

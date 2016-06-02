@@ -1,15 +1,12 @@
 'use strict';
 
 var io = require('../helpers/io.js')();
-var findConnection = require('../helpers/findConnectionById.js');
-
-module.exports = {
-    sendById: sendById
-};
 
 function sendById(req, res) {
     // Get the socket ID from user(Bearer token)
-    var socketId = req.user.socketId;
+    var socketId = req.user.socketId,
+        socket,
+        timeout;
 
     // If we are missing data, return error
     if (!req.body.data) {
@@ -26,15 +23,26 @@ function sendById(req, res) {
     }
 
     // Get the socket
-    var socket = io.sockets.connected[socketId];
+    socket = io.sockets.connected[socketId];
 
     // Send message to the client
     socket.emit('msg', {
         data: req.body.data
     });
 
+    // Wait for timeout
+    timeout = setTimeout(function() {
+        // Remove listener
+        socket.removeAllListeners('msg-response');
+
+        // Send error about timeout
+        return res.status(408).json({
+            msg: 'Web-client did not respond in timely manner'
+        });
+    }, 10000);
+
     // Wait for ack from client
-    socket.on('msg-response', function(data) {
+    socket.on('msg-response', function() {
         // Clear the ack listener
         socket.removeAllListeners('msg-response');
         // Clear timeout
@@ -45,15 +53,8 @@ function sendById(req, res) {
             msg: 'Message delivered succesfully'
         });
     });
-
-    // Wait for timeout
-    var timeout = setTimeout(function() {
-        // Remove listener
-        socket.removeAllListeners('msg-response');
-
-        // Send error about timeout
-        return res.status(408).json({
-            msg: 'Web-client did not respond in timely manner'
-        });
-    }, 10000);
 }
+
+module.exports = {
+    sendById: sendById
+};

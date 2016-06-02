@@ -7,11 +7,10 @@ module.exports = function findConnection(id, callback) {
         if (err) {
             return callback(err);
         }
-        else if (socketId) {
+        if (socketId) {
             return callback(null, socketId);
         }
-        else {
-            return callback(null, false);
-        }
+
+        return callback(null, false);
     });
 };
