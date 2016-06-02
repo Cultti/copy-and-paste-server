@@ -12,7 +12,7 @@ module.exports = function(io) {
 
     server = io;
 
-    var redis = require('./redis.js');
+    var redis = require('./redis.js')();
 
     io.on('connection', function(socket) {
         var id = generateId();

@@ -1,6 +1,6 @@
 'use strict';
 
-var redis = require('./redis.js');
+var redis = require('./redis.js')();
 
 module.exports = function findConnection(id, callback) {
     redis.get('connectionId:' + id, function(err, socketId) {

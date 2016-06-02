@@ -3,8 +3,9 @@
 var jwt = require('jsonwebtoken');
 var cfg = require('config');
 var ws = require('../helpers/io.js');
-var redis = require('../helpers/redis.js');
+var redis = require('../helpers/redis.js')();
 var findConnection = require('../helpers/findConnectionById.js');
+var timeoutInMs = 10000;
 
 function connectById(req, res) {
     // Get the request ID
@@ -46,7 +47,7 @@ function connectById(req, res) {
             return res.status(408).json({
                 msg: 'Web-client did not respond in timely manner'
             });
-        }, 10000);
+        }, timeoutInMs);
 
         // Wait for response from client
         socket.on('api-connected-response', function() {

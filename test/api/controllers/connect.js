@@ -2,16 +2,26 @@ var should = require('should');
 var rewire = require('rewire');
 var sinon = require('sinon');
 var httpMocks = require('node-mocks-http');
-var controller, req, res;
-
-var ioMock = require('../mocks/io.mock.js');
+var findConnectionByIdMock = require('../mocks/findConnectionById.mock');
+var ioMock = require('../mocks/io.mock');
+var redisMock = require('../mocks/redis.mock');
+var jwtMock = require('../mocks/jwt.mock');
+var testErrorResponseHelper = require('../helpers/testErrorResponse');
+var controller, req, res, ioStub, io, jwt, redis;
 
 describe('Connect controller', function() {
     beforeEach(function() {
         controller = rewire('../../../api-cov/controllers/connect');
-        
-        controller.__set__('ws', ioMock);
-        
+        io = ioMock();
+        jwt = jwtMock();
+        ioStub = sinon.stub().returns(io);
+        redis = redisMock();
+
+        controller.__set__('ws', ioStub);
+        controller.__set__('findConnection', findConnectionByIdMock);
+        controller.__set__('redis', redis);
+        controller.__set__('jwt', jwt);
+
         req = httpMocks.createRequest({
             swagger: {
                 params: {
@@ -41,18 +51,158 @@ describe('Connect controller', function() {
         controller.__set__('findConnection', function(id, callback) {
             callback('Error with finding id');
         });
-        
+
         controller.connectById(req, res);
-        
+
+        testErrorResponseHelper(res, 500);
+
+        // Done
+        done();
+    });
+
+    it('should try get socket.io server from io', function(done) {
+        // Make the call
+        controller.connectById(req, res);
+
+        // Do the should
+        ioStub.calledOnce.should.be.ok();
+
+        done();
+    });
+
+    it('should return 404 if nothing is found by findConnection', function(done) {
+        // Rewire the findConnection return false
+        controller.__set__('findConnection', function(id, callback) {
+            callback(null, false);
+        });
+
+        // Make the call
+        controller.connectById(req, res);
+
+        testErrorResponseHelper(res, 404);
+
+        done();
+    });
+
+    it('should return 404 if connection is disconnected', function(done) {
+        // Rewire the findConnection return false
+        controller.__set__('findConnection', function(id, callback) {
+            callback(null, 'notExists');
+        });
+
+        // Make the call
+        controller.connectById(req, res);
+
+        testErrorResponseHelper(res, 404);
+
+        done();
+    });
+
+    it('should emit api-conected message to the socket', function(done) {
+        // Make the call
+        controller.connectById(req, res);
+
+        io.sockets.connected['abc'].emit.calledWith('api-conected').should.be.ok();
+
+        done();
+    });
+
+    it('should res timeout if client does not answer in specified timelimit', function(done) {
+        // Set timeout for testing
+        controller.__set__('timeoutInMs', 0);
+
+        // Make the call
+        controller.connectById(req, res);
+
+        setTimeout(function() {
+            testErrorResponseHelper(res, 408);
+            done();
+        }, 0);
+    });
+
+    it('should remove all listeners api-connected-response from socket when timeout occurs', function(done) {
+        // Set timeout for testing
+        controller.__set__('timeoutInMs', 0);
+
+        // Make the call
+        controller.connectById(req, res);
+
+        setTimeout(function() {
+            io.sockets.connected['abc'].removeAllListeners
+                .calledWith('api-connected-response').should.be.ok();
+
+            done();
+        }, 0);
+    });
+
+    it('should start listening socket for api-connected-response call', function(done) {
+        // Make the call
+        controller.connectById(req, res);
+
+        io.sockets.connected['abc'].on
+            .calledWith('api-connected-response').should.be.ok();
+
+        done();
+    });
+
+    it('should remove all api-connected-response listeners when gets call', function(done) {
+        io.sockets.connected['abc'].on = function(listener, callback) {
+            callback();
+        };
+
+        // Make the call
+        controller.connectById(req, res);
+
+        io.sockets.connected['abc'].removeAllListeners
+            .calledWith('api-connected-response').should.be.ok();
+
+        done();
+    });
+
+    it('should generate token', function(done) {
+        io.sockets.connected['abc'].on = function(listener, callback) {
+            callback();
+        };
+
+        // Make the call
+        controller.connectById(req, res);
+
+        jwt.sign.calledOnce.should.be.ok();
+
+        done();
+    });
+
+    it('should remove connectionId from redis', function(done) {
+        redis.del = sinon.spy();
+
+        io.sockets.connected['abc'].on = function(listener, callback) {
+            callback();
+        };
+
+        // Make the call
+        controller.connectById(req, res);
+
+        redis.del.calledWith('connectionId:abc').should.be.ok();
+
+        done();
+    });
+
+    it('should return 200 response with message and token', function(done) {
+        io.sockets.connected['abc'].on = function(listener, callback) {
+            callback();
+        };
+
+        // Make the call
+        controller.connectById(req, res);
+
         // Get response data
         var data = JSON.parse(res._getData());
-        
+
         // Do the should
         data.should.have.property('msg');
-        data.msg.should.equal('Server error');
-        res.statusCode.should.equal(500);
+        data.should.have.property('token');
+        res.statusCode.should.equal(200);
         
-        // Done
         done();
     });
 })
