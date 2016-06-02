@@ -56,5 +56,6 @@ module.exports = function(grunt) {
 
     // Register tasks
     grunt.registerTask('default', ['wiredep']);
-    grunt.registerTask('test', ['jslint', 'jscoverage', 'mochaTest', 'coveralls']);
+    grunt.registerTask('test', ['jslint', 'jscoverage', 'mochaTest']);
+    grunt.registerTask('travis', ['test', 'coveralls']);
 };
