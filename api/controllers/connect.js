@@ -3,7 +3,7 @@
 var jwt = require('jsonwebtoken');
 var cfg = require('config');
 var ws = require('../helpers/io.js');
-var redis = require('../helpers/redis.js')();
+var redis = require('../helpers/redis.js');
 var findConnection = require('../helpers/findConnectionById.js');
 var timeoutInMs = 10000;
 
@@ -57,14 +57,15 @@ function connectById(req, res) {
             clearTimeout(timeout);
 
             // Generate token
-            var token = jwt.sign({
+            var redisClient, token = jwt.sign({
                 socketId: socketId
             }, cfg.get('security.secret'), {
                 expiresIn: cfg.get('security.expiresIn')
             });
 
             // Remove connection from redis
-            redis.del('connectionId:' + id);
+            redisClient = redis();
+            redisClient.del('connectionId:' + id);
 
             // Send response
             res.json({
