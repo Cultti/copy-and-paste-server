@@ -38,7 +38,7 @@ module.exports = function(grunt) {
             travis: {
                 options: {
                     reporter: 'mocha-lcov-reporter',
-                    captureFile: 'api-cov/output/mocha-lcov-reporter.out',
+                    captureFile: './api-cov/output/mocha-lcov-reporter.out',
                     quiet: false
                 },
                 src: ['test/**/*.js']
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
                 force: false
             },
             test: {
-                src: 'api-cov/output/mocha-lcov-reporter.out'
+                src: './api-cov/output/mocha-lcov-reporter.out'
             }
         }
     });
@@ -60,5 +60,5 @@ module.exports = function(grunt) {
     // Register tasks
     grunt.registerTask('default', ['wiredep']);
     grunt.registerTask('test', ['jslint', 'jscoverage', 'mochaTest:test']);
-    grunt.registerTask('travis', ['jslint', 'jscoverage', 'mochaTest:travis', 'coveralls']);
+    grunt.registerTask('travis', ['jslint', 'jscoverage', 'mochaTest:travis', 'coveralls:test']);
 };
