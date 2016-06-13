@@ -76,12 +76,12 @@ module.exports = function(grunt) {
 
     // For coveralls
     grunt.event.on('coverage', function(lcov, done) {
-        console.log(lcov);
+        console.log('Sending coverage report to coveralls.io...');
         require('coveralls').handleInput(lcov, function(err) {
-            console.log(err);
             if (err) {
                 return done(err);
             }
+            console.log('Sent!');
             done();
         });
     });
