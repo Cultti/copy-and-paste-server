@@ -11,7 +11,7 @@ var controller, req, ioStub, io, jwt, redis;
 
 describe('Connect controller', function() {
     beforeEach(function() {
-        controller = rewire('../../../api-cov/controllers/connect');
+        controller = rewire('../../../api/controllers/connect');
         io = ioMock();
         jwt = jwtMock();
         ioStub = sinon.stub().returns(io);

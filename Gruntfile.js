@@ -6,6 +6,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-jscoverage');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-coveralls');
+    grunt.loadNpmTasks('grunt-mocha-istanbul');
 
     grunt.initConfig({
         wiredep: {
@@ -54,11 +55,32 @@ module.exports = function(grunt) {
             test: {
                 src: './api-cov/output/mocha-lcov-reporter.out'
             }
+        },
+        mocha_istanbul: {
+            coverage: {
+                src: 'test/api/**/*.js'
+            },
+            coveralls: {
+                src: 'test/api/**/*.js',
+                options: {
+                    coverage: true
+                }
+            }
         }
     });
 
     // Register tasks
     grunt.registerTask('default', ['wiredep']);
-    grunt.registerTask('test', ['jslint', 'jscoverage', 'mochaTest:test']);
-    grunt.registerTask('travis', ['jslint', 'jscoverage', 'mochaTest:travis', 'coveralls:test']);
+    grunt.registerTask('test', ['jslint', 'mocha_istanbul:coverage']);
+    grunt.registerTask('travis', ['jslint', 'mocha_istanbul:coveralls']);
+
+    // For coveralls
+    grunt.event.on('coverage', function(lcov, done){
+    require('coveralls').handleInput(lcov, function(err){
+        if (err) {
+            return done(err);
+        }
+        done();
+    });
+});
 };
