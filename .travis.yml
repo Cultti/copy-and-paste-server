@@ -3,4 +3,5 @@ node_js:
     "6.2"
 script: 
     - grunt test
+after_success:
     - grunt coveralls
