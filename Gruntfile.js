@@ -75,12 +75,14 @@ module.exports = function(grunt) {
     grunt.registerTask('travis', ['jslint', 'mocha_istanbul:coveralls']);
 
     // For coveralls
-    grunt.event.on('coverage', function(lcov, done){
-    require('coveralls').handleInput(lcov, function(err){
-        if (err) {
-            return done(err);
-        }
-        done();
+    grunt.event.on('coverage', function(lcov, done) {
+        console.log(lcov);
+        require('coveralls').handleInput(lcov, function(err) {
+            console.log(err);
+            if (err) {
+                return done(err);
+            }
+            done();
+        });
     });
-});
 };
